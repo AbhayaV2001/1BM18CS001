@@ -11,7 +11,7 @@ void main()
 	int i;
 	for(i=0;i<10;i++)
 	{
-		printf("enter id,age,marks od student %d \n",i++);
+		printf("enter id,age,marks od student %d \n",i+1);
 		scanf("%d %d %d",&st[i].id,&st[i].age,&st[i].marks);
 		if(st[i].age>20 && st[i].marks>=0 && st[i].marks<=100)
 		{
