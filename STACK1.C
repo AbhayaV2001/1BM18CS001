@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<conio.h>
 	int stack[100],top=-1;
 	void push(int ele);
 	int pop();
@@ -7,7 +6,6 @@
 	int main()
 	{
 		int e;
-		clrscr();
 		push(1);
 		push(2);
 		push(3);
@@ -15,7 +13,6 @@
 		e=pop();
 		printf("Popped element is %d",e);
 		display();
-		getch();
 		return 0;
 	}
 	void push(int ele)
