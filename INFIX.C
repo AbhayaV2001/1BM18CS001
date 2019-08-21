@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<ctype.h>
-#include<conio.h>
 void push(char c,int *t,char s[20]);
 char pop(int *t,char s[20]);
 void main()
@@ -10,7 +9,6 @@ void main()
 	char exp[20];
 	char *e, x;
 	int check=0;
-	clrscr();
 	printf("Enter the expression :: ");
 	scanf("%s",exp);
 	e = exp;
@@ -40,7 +38,6 @@ void main()
 		printf("%c",pop(&top,stack));
     	}
 	printf("\n");
-	getch();
 }
 void push(char c,int *t,char s[20])
 {
