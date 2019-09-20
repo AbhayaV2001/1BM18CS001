@@ -75,6 +75,4 @@ void display(int q[],int f,int r)
 	printf("Contents of Queue are:\n");
 	for(i=f;i!=r;i=(i+1)%size)
 	printf("%d\n",q[i]);
-	printf("%d\n",q[i]);
-
 }
