@@ -27,7 +27,7 @@ int main()
 				break;
 		default : printf("Invalid Choice.");
 				break;
-	};
+	}
 	printf("Do you want to Continue (1/0) ? \n");
 	scanf("%d",&ch_q);
 	}while(ch_q!=0);
