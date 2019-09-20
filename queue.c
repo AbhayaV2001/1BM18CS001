@@ -73,7 +73,7 @@ void main()
 					printf("Invalid option,try again");
 					break;
 				}
-		};
+		}
 		printf("Do you want to continue queueing(1/0)? \n");
 		scanf("%d",&ch);
 	}while(ch==1);
