@@ -1,5 +1,4 @@
 #include<stdio.h>
-$ cd DS_1BM18CS001
 #include<ctype.h>
 void push(char c,int *t,char s[20]);
 char pop(int *t,char s[20]);
