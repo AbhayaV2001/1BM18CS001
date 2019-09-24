@@ -1,149 +1,138 @@
-#include<stdio.h>
-#include<stdlib.h>
-struct node
-{
-	int data;
+ 
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+	int val;
 	struct node *next;
 };
-typedef struct node *NODE;
-NODE getnode();
-NODE insertfront(int item, NODE head);
-NODE insertpos(NODE head, int item, int pos);
-void insertend(int item, NODE head);
-void display(NODE head);
-int main()
-{
-	NODE head;
-	head = NULL;
-	int item,pos,ch,ch1;
-	do
-	{
-	printf("Enter\n1 for insertion at front\n2 for insertion at a given position\n3 for insertion at end\n4 to display the contents of the list\n");
-	scanf("%d",&ch);
-	switch(ch)
-	{
-	case 1:{ 	printf("Enter the item to be inserted at the front\n");
-	 		scanf("%d",&item);
-	 		head = insertfront(item,head);
-	 		break; }
-	case 2:{ 	printf("Enter the position of insertion\n");
-			scanf("%d",&pos);
-	 		printf("Enter the item to be inserted at position %d\n",pos);
-	 		scanf("%d",&item);
-	 		head = insertpos(head,item,pos);
-	 		break; }
-	case 3:{ 	printf("Enter the item to be inserted at the end\n");
-	 		scanf("%d",&item);
-	 		insertend(item,head);
-	 		break; }
-	case 4:{	printf("\nContents of the linked list are\n");
-	 		display(head);
-	 		printf("\n");
-	 		break; }
-	default: printf("\nInvalid Input\n");
-	}
-	printf("\nEnter any value to continue and 1 to exit\n");
-	scanf("%d",&ch1);
-	}while(ch1!=1);
-	return 0;
+
+typedef struct node* NODE;
+//create our list
+NODE getNode() {
+	NODE n = malloc(sizeof(struct node));
+	n->val = 0;
+	n->next = NULL;
+	return n;
 }
-NODE getnode()
-{
-	NODE p;
-	p = (NODE)malloc(sizeof(struct node));
-	if(p!=NULL)
-	{
-		return p;
+
+//to insert node
+NODE insert(NODE head, int val) { 
+	NODE temp = head, n = getNode();
+	n->val = val;
+	if (head == NULL) 
+	    return n;
+	while (temp->next != NULL) {
+		temp = temp->next;
 	}
-	else 
-	{
-		printf("\nMemory could not be allocated\n");
-		exit(0);
-	}
-}
-void display(NODE head)
-{
-	NODE p;
-	if(head==NULL)
-	{
-		printf("\nList is empty\n");
-		exit(0);
-	}
-	p = head;
-	while(p!=NULL)
-	{
-		printf("%d ",p->data);
-		p=p->next;
-	}
-}
-NODE insertfront(int item, NODE head)
-{
-	NODE p;
-	p=getnode();
-	p->data = item;
-	p->next = head;
-	head = p;
+	temp->next = n;
 	return head;
 }
-NODE insertpos(NODE head, int item, int pos)
-{
-	NODE curr,prev=NULL,newn;
-	int count = 1;
-	newn = getnode();
-	newn->data = item;
-	newn->next = NULL;
-	if(head==NULL)
-	{
-		if(pos==1)
-		{
-			return newn;
-		}
-		else
-		{
-		printf("\nInvalid Position\n");
-		return head;
-		}
+
+
+//to delete at front
+NODE delete_front(NODE head) {
+	if (head == NULL) {
+		printf("list is empty\n");
+		return NULL;
 	}
-	if(pos==1)
-	{
-		newn->next=head;
-		head=newn;
-		return head;
+	printf("deleted element: %d\n", head->val);
+	NODE curr = head;
+	head = head->next;
+	free(curr);
+	return head;
+}
+//to delete at rear
+NODE delete_rear(NODE head) {
+	if (head == NULL) {
+		printf("list is empty\n");
+		return NULL;
 	}
-	else 
-	{
-		curr = head;
-		while(curr!=NULL && count!=pos)
-		{
+	if (head->next == NULL) {
+		printf("deleted element: %d\n", head->val);
+		return NULL;
+	}
+	NODE curr = head->next, prev = head;
+	while (curr->next != NULL) { 
+		prev = curr;
+		curr = curr->next;
+	}
+	printf("deleted element: %d\n", curr->val);
+	prev->next = NULL;
+	free(curr);
+	return head;
+}
+//to delete a specified element
+NODE delete(NODE head, int ele) {
+	if (head == NULL) {
+		printf("list is empty\n");
+		return NULL;
+	}
+	else if (head->val == ele) {
+		printf("deleted element: %d\n", head->val);
+		free(head);
+		return NULL;
+	}
+	else {
+		NODE curr = head->next, prev = head;
+		while (curr->val != ele) {
 			prev = curr;
 			curr = curr->next;
-			count++;
+			if (curr == NULL) {
+				printf("element %d not found\n", ele);
+				return head;
+			}
 		}
-		if(count==pos)
-		{
-			prev->next = newn;
-			newn->next = curr;
-			return head;
-		}
-		else
-		{
-			printf("\nInvalid Position\n");
-			return head;
-		}
+		printf("deleted element: %d\n", curr->val);
+		prev->next = curr->next;
+		free(curr);
+		return head;
 	}
+	
 }
-void insertend(int item, NODE head)
-{
-	NODE p,q;
-	q=getnode();
-	q->data = item;
-	p=head;
-	while(p->next!=NULL)
-	{
-		p=p->next;
+//to display the list
+void display(NODE head) {
+	if (head == NULL) {
+		printf("list is empty\n");
+		return;
 	}
-	p->next=q;
-	q->next=NULL;
+	printf("The contents of the list are:\n");
+	NODE temp = head;
+	while (temp != NULL) {
+		printf("%d\n", temp->val);
+		temp = temp->next;
+	}
+	printf("\n");
 }
 
+int main() {
+	NODE head = NULL;
+	int ele;
+	do {
+		int choice, val;
+		printf("1 to insert\n2 to delete at front \n3 to delete element\n4 to delete at end\n5 to display \n6 to stop\n");
+	    scanf("%d", &choice);
+		switch (choice) {
+			case 1: printf("Enter the value: ");
+				scanf("%d", &val);
+				head = insert(head, val);
+				break;
 
+			case 2:head = delete_front(head);
+				break;
+				
+			case 3:printf("Enter the element to delete: ");
+				scanf("%d", &ele);
+				head = delete(head, ele);
+				break;
+				
+			case 4:head = delete_rear(head);
+				break;
+
+			case 5:display(head);
+				break;
+
+			case 6: return 0;
+		}	
+	} while (1);
+}
